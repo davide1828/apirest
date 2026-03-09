@@ -1,12 +1,14 @@
 const { Router } = require('express');
-const { getMedias, createMedia, getMediaById, updateMedia, deleteMedia } = require('../controllers/mediaController');
+const { getTipos, createTipo, getTipoById, updateTipo, deleteTipo } = require('../controllers/tipoController');
 
 const router = Router();
 
-router.get('/', getMedias);
-router.post('/', createMedia);
-router.get('/:id', getMediaById);
-router.put('/:id', updateMedia);
-router.delete('/:id', deleteMedia);
+
+
+router.get('/', getTipos);
+router.post('/', createTipo);
+router.get('/:id', getTipoById);
+router.put('/:id', updateTipo);
+router.delete('/:id', deleteTipo);
 
 module.exports = router;

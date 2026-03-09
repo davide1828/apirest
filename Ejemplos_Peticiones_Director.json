@@ -1,0 +1,223 @@
+{
+  "info": {
+    "titulo": "API REST - Director",
+    "descripcion": "Ejemplos de peticiones GET, POST, PUT y DELETE para la API de Director",
+    "baseURL": "http://localhost:4000/api"
+  },
+  "peticiones": {
+    "get_todos_directores": {
+      "metodo": "GET",
+      "url": "http://localhost:4000/api/director",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "descripcion": "Obtiene la lista de todos los directores",
+      "respuesta_esperada": {
+        "status": 200,
+        "body": [
+          {
+            "_id": "507f1f77bcf86cd799439015",
+            "nombre": "Steven Spielberg",
+            "estado": "Activo",
+            "fechaCreacion": "2024-01-15T10:30:00.000Z",
+            "fechaActualizacion": "2024-01-15T10:30:00.000Z"
+          },
+          {
+            "_id": "507f1f77bcf86cd799439020",
+            "nombre": "Martin Scorsese",
+            "estado": "Activo",
+            "fechaCreacion": "2024-01-15T11:45:00.000Z",
+            "fechaActualizacion": "2024-01-15T11:45:00.000Z"
+          }
+        ]
+      }
+    },
+    "post_crear_director": {
+      "metodo": "POST",
+      "url": "http://localhost:4000/api/director",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "descripcion": "Crea un nuevo director en la base de datos",
+      "body": {
+        "nombre": "Christopher Nolan"
+      },
+      "campos_requeridos": [
+        {
+          "campo": "nombre",
+          "tipo": "string",
+          "descripcion": "Nombre del director",
+          "validaciones": [
+            "Requerido",
+            "Único en la base de datos",
+            "Se elimina espacios en blanco al inicio y final"
+          ]
+        }
+      ],
+      "respuesta_esperada": {
+        "status": 201,
+        "body": {
+          "_id": "507f1f77bcf86cd799439021",
+          "nombre": "Christopher Nolan",
+          "estado": "Activo",
+          "fechaCreacion": "2024-01-15T12:30:00.000Z",
+          "fechaActualizacion": "2024-01-15T12:30:00.000Z"
+        }
+      },
+      "errores_posibles": [
+        {
+          "status": 400,
+          "mensaje": "El director [nombre] ya existe",
+          "causa": "Se intenta crear un director con un nombre que ya existe en la BD"
+        },
+        {
+          "status": 400,
+          "mensaje": "El nombre del director es obligatorio",
+          "causa": "No se envió el campo nombre en la solicitud"
+        },
+        {
+          "status": 500,
+          "mensaje": "Ocurrió un error al crear el director",
+          "causa": "Error del servidor al procesar la solicitud"
+        }
+      ]
+    },
+    "get_director_por_id": {
+      "metodo": "GET",
+      "url": "http://localhost:4000/api/director/507f1f77bcf86cd799439015",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "descripcion": "Obtiene un director específico por su ID",
+      "respuesta_esperada": {
+        "status": 200,
+        "body": {
+          "_id": "507f1f77bcf86cd799439015",
+          "nombre": "Steven Spielberg",
+          "estado": "Activo",
+          "fechaCreacion": "2024-01-15T10:30:00.000Z",
+          "fechaActualizacion": "2024-01-15T10:30:00.000Z"
+        }
+      },
+      "errores_posibles": [
+        {
+          "status": 404,
+          "mensaje": "Director no encontrado",
+          "causa": "El ID proporcionado no corresponde a ningún director en la BD"
+        }
+      ]
+    },
+    "put_actualizar_director": {
+      "metodo": "PUT",
+      "url": "http://localhost:4000/api/director/507f1f77bcf86cd799439015",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "descripcion": "Actualiza un director existente",
+      "body": {
+        "nombre": "Steven Allan Spielberg",
+        "estado": "Inactivo"
+      },
+      "campos_actualizables": [
+        {
+          "campo": "nombre",
+          "tipo": "string",
+          "descripcion": "Nombre del director",
+          "validaciones": [
+            "Opcional",
+            "Único en la base de datos",
+            "Se elimina espacios en blanco al inicio y final"
+          ]
+        },
+        {
+          "campo": "estado",
+          "tipo": "string",
+          "descripcion": "Estado del director",
+          "validaciones": [
+            "Opcional",
+            "Solo: 'Activo' o 'Inactivo'"
+          ]
+        }
+      ],
+      "respuesta_esperada": {
+        "status": 200,
+        "body": {
+          "_id": "507f1f77bcf86cd799439015",
+          "nombre": "Steven Allan Spielberg",
+          "estado": "Inactivo",
+          "fechaCreacion": "2024-01-15T10:30:00.000Z",
+          "fechaActualizacion": "2024-01-15T14:20:00.000Z"
+        }
+      },
+      "errores_posibles": [
+        {
+          "status": 400,
+          "mensaje": "El director [nombre] ya existe",
+          "causa": "Se intenta actualizar con un nombre que ya existe en otro registro"
+        },
+        {
+          "status": 404,
+          "mensaje": "Director no encontrado",
+          "causa": "El ID proporcionado no corresponde a ningún director en la BD"
+        }
+      ]
+    },
+    "delete_director": {
+      "metodo": "DELETE",
+      "url": "http://localhost:4000/api/director/507f1f77bcf86cd799439015",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "descripcion": "Elimina un director de la base de datos",
+      "respuesta_esperada": {
+        "status": 200,
+        "body": {
+          "message": "Director eliminado correctamente",
+          "director": {
+            "_id": "507f1f77bcf86cd799439015",
+            "nombre": "Steven Spielberg",
+            "estado": "Activo",
+            "fechaCreacion": "2024-01-15T10:30:00.000Z",
+            "fechaActualizacion": "2024-01-15T10:30:00.000Z"
+          }
+        }
+      },
+      "errores_posibles": [
+        {
+          "status": 404,
+          "mensaje": "Director no encontrado",
+          "causa": "El ID proporcionado no corresponde a ningún director en la BD"
+        },
+        {
+          "status": 500,
+          "mensaje": "Ocurrió un error al eliminar el director",
+          "causa": "Error del servidor al procesar la solicitud"
+        }
+      ]
+    }
+  },
+  "ejemplos_curl": {
+    "get_todos_directores": "curl -X GET http://localhost:4000/api/director -H \"Content-Type: application/json\"",
+    "post_crear_director": "curl -X POST http://localhost:4000/api/director -H \"Content-Type: application/json\" -d '{\"nombre\": \"Christopher Nolan\"}'",
+    "get_director_por_id": "curl -X GET http://localhost:4000/api/director/507f1f77bcf86cd799439015 -H \"Content-Type: application/json\"",
+    "put_actualizar_director": "curl -X PUT http://localhost:4000/api/director/507f1f77bcf86cd799439015 -H \"Content-Type: application/json\" -d '{\"nombre\": \"Steven Allan Spielberg\", \"estado\": \"Inactivo\"}'",
+    "delete_director": "curl -X DELETE http://localhost:4000/api/director/507f1f77bcf86cd799439015 -H \"Content-Type: application/json\""
+  },
+  "ejemplos_javascript": {
+    "get_todos_directores": {
+      "codigo": "fetch('http://localhost:4000/api/director')\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error('Error:', error));"
+    },
+    "post_crear_director": {
+      "codigo": "fetch('http://localhost:4000/api/director', {\n  method: 'POST',\n  headers: {\n    'Content-Type': 'application/json'\n  },\n  body: JSON.stringify({\n    nombre: 'Christopher Nolan'\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error('Error:', error));"
+    },
+    "get_director_por_id": {
+      "codigo": "fetch('http://localhost:4000/api/director/507f1f77bcf86cd799439015')\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error('Error:', error));"
+    },
+    "put_actualizar_director": {
+      "codigo": "fetch('http://localhost:4000/api/director/507f1f77bcf86cd799439015', {\n  method: 'PUT',\n  headers: {\n    'Content-Type': 'application/json'\n  },\n  body: JSON.stringify({\n    nombre: 'Steven Allan Spielberg',\n    estado: 'Inactivo'\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error('Error:', error));"
+    },
+    "delete_director": {
+      "codigo": "fetch('http://localhost:4000/api/director/507f1f77bcf86cd799439015', {\n  method: 'DELETE',\n  headers: {\n    'Content-Type': 'application/json'\n  }\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error('Error:', error));"
+    }
+  }
+}

@@ -1,0 +1,228 @@
+{
+  "info": {
+    "titulo": "API REST - Tipo",
+    "descripcion": "Ejemplos de peticiones GET, POST, PUT y DELETE para la API de Tipo",
+    "baseURL": "http://localhost:4000/api"
+  },
+  "peticiones": {
+    "get_todos_tipos": {
+      "metodo": "GET",
+      "url": "http://localhost:4000/api/tipo",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "descripcion": "Obtiene la lista de todos los tipos de multimedia",
+      "respuesta_esperada": {
+        "status": 200,
+        "body": [
+          {
+            "_id": "507f1f77bcf86cd799439017",
+            "nombre": "Película",
+            "descripcion": "Contenido multimedia de formato película",
+            "fechaCreacion": "2024-01-15T10:30:00.000Z",
+            "fechaActualizacion": "2024-01-15T10:30:00.000Z"
+          },
+          {
+            "_id": "507f1f77bcf86cd799439018",
+            "nombre": "Serie",
+            "descripcion": "Contenido multimedia de formato serie o episódico",
+            "fechaCreacion": "2024-01-15T10:45:00.000Z",
+            "fechaActualizacion": "2024-01-15T10:45:00.000Z"
+          }
+        ]
+      }
+    },
+    "post_crear_tipo": {
+      "metodo": "POST",
+      "url": "http://localhost:4000/api/tipo",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "descripcion": "Crea un nuevo tipo de multimedia en la base de datos",
+      "body": {
+        "nombre": "Documental",
+        "descripcion": "Contenido de formato documental"
+      },
+      "campos_requeridos": [
+        {
+          "campo": "nombre",
+          "tipo": "string",
+          "descripcion": "Nombre del tipo",
+          "validaciones": [
+            "Requerido",
+            "Único en la base de datos",
+            "Se elimina espacios en blanco al inicio y final"
+          ]
+        }
+      ],
+      "campos_opcionales": [
+        {
+          "campo": "descripcion",
+          "tipo": "string",
+          "descripcion": "Descripción del tipo"
+        }
+      ],
+      "respuesta_esperada": {
+        "status": 201,
+        "body": {
+          "_id": "507f1f77bcf86cd799439024",
+          "nombre": "Documental",
+          "descripcion": "Contenido de formato documental",
+          "fechaCreacion": "2024-01-15T15:20:00.000Z",
+          "fechaActualizacion": "2024-01-15T15:20:00.000Z"
+        }
+      },
+      "errores_posibles": [
+        {
+          "status": 400,
+          "mensaje": "El tipo [nombre] ya existe",
+          "causa": "Se intenta crear un tipo con un nombre que ya existe en la BD"
+        },
+        {
+          "status": 400,
+          "mensaje": "El nombre del tipo es obligatorio",
+          "causa": "No se envió el campo nombre en la solicitud"
+        },
+        {
+          "status": 500,
+          "mensaje": "Ocurrió un error al crear el tipo",
+          "causa": "Error del servidor al procesar la solicitud"
+        }
+      ]
+    },
+    "get_tipo_por_id": {
+      "metodo": "GET",
+      "url": "http://localhost:4000/api/tipo/507f1f77bcf86cd799439017",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "descripcion": "Obtiene un tipo específico por su ID",
+      "respuesta_esperada": {
+        "status": 200,
+        "body": {
+          "_id": "507f1f77bcf86cd799439017",
+          "nombre": "Película",
+          "descripcion": "Contenido multimedia de formato película",
+          "fechaCreacion": "2024-01-15T10:30:00.000Z",
+          "fechaActualizacion": "2024-01-15T10:30:00.000Z"
+        }
+      },
+      "errores_posibles": [
+        {
+          "status": 404,
+          "mensaje": "Tipo no encontrado",
+          "causa": "El ID proporcionado no corresponde a ningún tipo en la BD"
+        }
+      ]
+    },
+    "put_actualizar_tipo": {
+      "metodo": "PUT",
+      "url": "http://localhost:4000/api/tipo/507f1f77bcf86cd799439017",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "descripcion": "Actualiza un tipo existente",
+      "body": {
+        "nombre": "Film",
+        "descripcion": "Contenido audiovisual de formato película o film"
+      },
+      "campos_actualizables": [
+        {
+          "campo": "nombre",
+          "tipo": "string",
+          "descripcion": "Nombre del tipo",
+          "validaciones": [
+            "Opcional",
+            "Único en la base de datos",
+            "Se elimina espacios en blanco al inicio y final"
+          ]
+        },
+        {
+          "campo": "descripcion",
+          "tipo": "string",
+          "descripcion": "Descripción del tipo",
+          "validaciones": ["Opcional"]
+        }
+      ],
+      "respuesta_esperada": {
+        "status": 200,
+        "body": {
+          "_id": "507f1f77bcf86cd799439017",
+          "nombre": "Film",
+          "descripcion": "Contenido audiovisual de formato película o film",
+          "fechaCreacion": "2024-01-15T10:30:00.000Z",
+          "fechaActualizacion": "2024-01-15T16:05:00.000Z"
+        }
+      },
+      "errores_posibles": [
+        {
+          "status": 400,
+          "mensaje": "El tipo [nombre] ya existe",
+          "causa": "Se intenta actualizar con un nombre que ya existe en otro registro"
+        },
+        {
+          "status": 404,
+          "mensaje": "Tipo no encontrado",
+          "causa": "El ID proporcionado no corresponde a ningún tipo en la BD"
+        }
+      ]
+    },
+    "delete_tipo": {
+      "metodo": "DELETE",
+      "url": "http://localhost:4000/api/tipo/507f1f77bcf86cd799439017",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "descripcion": "Elimina un tipo de la base de datos",
+      "respuesta_esperada": {
+        "status": 200,
+        "body": {
+          "message": "Tipo eliminado correctamente",
+          "tipo": {
+            "_id": "507f1f77bcf86cd799439017",
+            "nombre": "Película",
+            "descripcion": "Contenido multimedia de formato película",
+            "fechaCreacion": "2024-01-15T10:30:00.000Z",
+            "fechaActualizacion": "2024-01-15T10:30:00.000Z"
+          }
+        }
+      },
+      "errores_posibles": [
+        {
+          "status": 404,
+          "mensaje": "Tipo no encontrado",
+          "causa": "El ID proporcionado no corresponde a ningún tipo en la BD"
+        },
+        {
+          "status": 500,
+          "mensaje": "Ocurrió un error al eliminar el tipo",
+          "causa": "Error del servidor al procesar la solicitud"
+        }
+      ]
+    }
+  },
+  "ejemplos_curl": {
+    "get_todos_tipos": "curl -X GET http://localhost:4000/api/tipo -H \"Content-Type: application/json\"",
+    "post_crear_tipo": "curl -X POST http://localhost:4000/api/tipo -H \"Content-Type: application/json\" -d '{\"nombre\": \"Documental\", \"descripcion\": \"Contenido de formato documental\"}'",
+    "get_tipo_por_id": "curl -X GET http://localhost:4000/api/tipo/507f1f77bcf86cd799439017 -H \"Content-Type: application/json\"",
+    "put_actualizar_tipo": "curl -X PUT http://localhost:4000/api/tipo/507f1f77bcf86cd799439017 -H \"Content-Type: application/json\" -d '{\"nombre\": \"Film\", \"descripcion\": \"Contenido audiovisual de formato película o film\"}'",
+    "delete_tipo": "curl -X DELETE http://localhost:4000/api/tipo/507f1f77bcf86cd799439017 -H \"Content-Type: application/json\""
+  },
+  "ejemplos_javascript": {
+    "get_todos_tipos": {
+      "codigo": "fetch('http://localhost:4000/api/tipo')\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error('Error:', error));"
+    },
+    "post_crear_tipo": {
+      "codigo": "fetch('http://localhost:4000/api/tipo', {\n  method: 'POST',\n  headers: {\n    'Content-Type': 'application/json'\n  },\n  body: JSON.stringify({\n    nombre: 'Documental',\n    descripcion: 'Contenido de formato documental'\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error('Error:', error));"
+    },
+    "get_tipo_por_id": {
+      "codigo": "fetch('http://localhost:4000/api/tipo/507f1f77bcf86cd799439017')\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error('Error:', error));"
+    },
+    "put_actualizar_tipo": {
+      "codigo": "fetch('http://localhost:4000/api/tipo/507f1f77bcf86cd799439017', {\n  method: 'PUT',\n  headers: {\n    'Content-Type': 'application/json'\n  },\n  body: JSON.stringify({\n    nombre: 'Film',\n    descripcion: 'Contenido audiovisual de formato película o film'\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error('Error:', error));"
+    },
+    "delete_tipo": {
+      "codigo": "fetch('http://localhost:4000/api/tipo/507f1f77bcf86cd799439017', {\n  method: 'DELETE',\n  headers: {\n    'Content-Type': 'application/json'\n  }\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error('Error:', error));"
+    }
+  }
+}

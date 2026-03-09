@@ -1,0 +1,263 @@
+{
+  "info": {
+    "titulo": "API REST - Productora",
+    "descripcion": "Ejemplos de peticiones GET, POST, PUT y DELETE para la API de Productora",
+    "baseURL": "http://localhost:4000/api"
+  },
+  "peticiones": {
+    "get_todas_productoras": {
+      "metodo": "GET",
+      "url": "http://localhost:4000/api/productora",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "descripcion": "Obtiene la lista de todas las productoras",
+      "respuesta_esperada": {
+        "status": 200,
+        "body": [
+          {
+            "_id": "507f1f77bcf86cd799439016",
+            "nombre": "Universal Pictures",
+            "estado": "Activo",
+            "slogan": "Creating Magic",
+            "descripcion": "Empresa productora de películas de Hollywood",
+            "fechaCreacion": "2024-01-15T10:30:00.000Z",
+            "fechaActualizacion": "2024-01-15T10:30:00.000Z"
+          },
+          {
+            "_id": "507f1f77bcf86cd799439022",
+            "nombre": "Warner Bros",
+            "estado": "Activo",
+            "slogan": "That's All, Folks!",
+            "descripcion": "Productora de películas y series de televisión",
+            "fechaCreacion": "2024-01-15T11:15:00.000Z",
+            "fechaActualizacion": "2024-01-15T11:15:00.000Z"
+          }
+        ]
+      }
+    },
+    "post_crear_productora": {
+      "metodo": "POST",
+      "url": "http://localhost:4000/api/productora",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "descripcion": "Crea una nueva productora en la base de datos",
+      "body": {
+        "nombre": "Paramount Pictures",
+        "slogan": "Summon the Gods",
+        "descripcion": "Productora americana fundada en 1912"
+      },
+      "campos_requeridos": [
+        {
+          "campo": "nombre",
+          "tipo": "string",
+          "descripcion": "Nombre de la productora",
+          "validaciones": [
+            "Requerido",
+            "Único en la base de datos",
+            "Se elimina espacios en blanco al inicio y final"
+          ]
+        }
+      ],
+      "campos_opcionales": [
+        {
+          "campo": "slogan",
+          "tipo": "string",
+          "descripcion": "Slogan o lema de la productora"
+        },
+        {
+          "campo": "descripcion",
+          "tipo": "string",
+          "descripcion": "Descripción de la productora"
+        }
+      ],
+      "respuesta_esperada": {
+        "status": 201,
+        "body": {
+          "_id": "507f1f77bcf86cd799439023",
+          "nombre": "Paramount Pictures",
+          "estado": "Activo",
+          "slogan": "Summon the Gods",
+          "descripcion": "Productora americana fundada en 1912",
+          "fechaCreacion": "2024-01-15T13:45:00.000Z",
+          "fechaActualizacion": "2024-01-15T13:45:00.000Z"
+        }
+      },
+      "errores_posibles": [
+        {
+          "status": 400,
+          "mensaje": "La productora [nombre] ya existe",
+          "causa": "Se intenta crear una productora con un nombre que ya existe en la BD"
+        },
+        {
+          "status": 400,
+          "mensaje": "El nombre de la productora es obligatorio",
+          "causa": "No se envió el campo nombre en la solicitud"
+        },
+        {
+          "status": 500,
+          "mensaje": "Ocurrió un error al crear la productora",
+          "causa": "Error del servidor al procesar la solicitud"
+        }
+      ]
+    },
+    "get_productora_por_id": {
+      "metodo": "GET",
+      "url": "http://localhost:4000/api/productora/507f1f77bcf86cd799439016",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "descripcion": "Obtiene una productora específica por su ID",
+      "respuesta_esperada": {
+        "status": 200,
+        "body": {
+          "_id": "507f1f77bcf86cd799439016",
+          "nombre": "Universal Pictures",
+          "estado": "Activo",
+          "slogan": "Creating Magic",
+          "descripcion": "Empresa productora de películas de Hollywood",
+          "fechaCreacion": "2024-01-15T10:30:00.000Z",
+          "fechaActualizacion": "2024-01-15T10:30:00.000Z"
+        }
+      },
+      "errores_posibles": [
+        {
+          "status": 404,
+          "mensaje": "Productora no encontrada",
+          "causa": "El ID proporcionado no corresponde a ninguna productora en la BD"
+        }
+      ]
+    },
+    "put_actualizar_productora": {
+      "metodo": "PUT",
+      "url": "http://localhost:4000/api/productora/507f1f77bcf86cd799439016",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "descripcion": "Actualiza una productora existente",
+      "body": {
+        "nombre": "Universal Pictures Inc.",
+        "slogan": "Bringing the Magic Home",
+        "descripcion": "Empresa productora y distribuidora de películas de Hollywood",
+        "estado": "Inactivo"
+      },
+      "campos_actualizables": [
+        {
+          "campo": "nombre",
+          "tipo": "string",
+          "descripcion": "Nombre de la productora",
+          "validaciones": [
+            "Opcional",
+            "Único en la base de datos",
+            "Se elimina espacios en blanco al inicio y final"
+          ]
+        },
+        {
+          "campo": "slogan",
+          "tipo": "string",
+          "descripcion": "Slogan de la productora",
+          "validaciones": ["Opcional"]
+        },
+        {
+          "campo": "descripcion",
+          "tipo": "string",
+          "descripcion": "Descripción de la productora",
+          "validaciones": ["Opcional"]
+        },
+        {
+          "campo": "estado",
+          "tipo": "string",
+          "descripcion": "Estado de la productora",
+          "validaciones": [
+            "Opcional",
+            "Solo: 'Activo' o 'Inactivo'"
+          ]
+        }
+      ],
+      "respuesta_esperada": {
+        "status": 200,
+        "body": {
+          "_id": "507f1f77bcf86cd799439016",
+          "nombre": "Universal Pictures Inc.",
+          "estado": "Inactivo",
+          "slogan": "Bringing the Magic Home",
+          "descripcion": "Empresa productora y distribuidora de películas de Hollywood",
+          "fechaCreacion": "2024-01-15T10:30:00.000Z",
+          "fechaActualizacion": "2024-01-15T14:55:00.000Z"
+        }
+      },
+      "errores_posibles": [
+        {
+          "status": 400,
+          "mensaje": "La productora [nombre] ya existe",
+          "causa": "Se intenta actualizar con un nombre que ya existe en otro registro"
+        },
+        {
+          "status": 404,
+          "mensaje": "Productora no encontrada",
+          "causa": "El ID proporcionado no corresponde a ninguna productora en la BD"
+        }
+      ]
+    },
+    "delete_productora": {
+      "metodo": "DELETE",
+      "url": "http://localhost:4000/api/productora/507f1f77bcf86cd799439016",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "descripcion": "Elimina una productora de la base de datos",
+      "respuesta_esperada": {
+        "status": 200,
+        "body": {
+          "message": "Productora eliminada correctamente",
+          "productora": {
+            "_id": "507f1f77bcf86cd799439016",
+            "nombre": "Universal Pictures",
+            "estado": "Activo",
+            "slogan": "Creating Magic",
+            "descripcion": "Empresa productora de películas de Hollywood",
+            "fechaCreacion": "2024-01-15T10:30:00.000Z",
+            "fechaActualizacion": "2024-01-15T10:30:00.000Z"
+          }
+        }
+      },
+      "errores_posibles": [
+        {
+          "status": 404,
+          "mensaje": "Productora no encontrada",
+          "causa": "El ID proporcionado no corresponde a ninguna productora en la BD"
+        },
+        {
+          "status": 500,
+          "mensaje": "Ocurrió un error al eliminar la productora",
+          "causa": "Error del servidor al procesar la solicitud"
+        }
+      ]
+    }
+  },
+  "ejemplos_curl": {
+    "get_todas_productoras": "curl -X GET http://localhost:4000/api/productora -H \"Content-Type: application/json\"",
+    "post_crear_productora": "curl -X POST http://localhost:4000/api/productora -H \"Content-Type: application/json\" -d '{\"nombre\": \"Paramount Pictures\", \"slogan\": \"Summon the Gods\", \"descripcion\": \"Productora americana fundada en 1912\"}'",
+    "get_productora_por_id": "curl -X GET http://localhost:4000/api/productora/507f1f77bcf86cd799439016 -H \"Content-Type: application/json\"",
+    "put_actualizar_productora": "curl -X PUT http://localhost:4000/api/productora/507f1f77bcf86cd799439016 -H \"Content-Type: application/json\" -d '{\"nombre\": \"Universal Pictures Inc.\", \"slogan\": \"Bringing the Magic Home\", \"estado\": \"Inactivo\"}'",
+    "delete_productora": "curl -X DELETE http://localhost:4000/api/productora/507f1f77bcf86cd799439016 -H \"Content-Type: application/json\""
+  },
+  "ejemplos_javascript": {
+    "get_todas_productoras": {
+      "codigo": "fetch('http://localhost:4000/api/productora')\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error('Error:', error));"
+    },
+    "post_crear_productora": {
+      "codigo": "fetch('http://localhost:4000/api/productora', {\n  method: 'POST',\n  headers: {\n    'Content-Type': 'application/json'\n  },\n  body: JSON.stringify({\n    nombre: 'Paramount Pictures',\n    slogan: 'Summon the Gods',\n    descripcion: 'Productora americana fundada en 1912'\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error('Error:', error));"
+    },
+    "get_productora_por_id": {
+      "codigo": "fetch('http://localhost:4000/api/productora/507f1f77bcf86cd799439016')\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error('Error:', error));"
+    },
+    "put_actualizar_productora": {
+      "codigo": "fetch('http://localhost:4000/api/productora/507f1f77bcf86cd799439016', {\n  method: 'PUT',\n  headers: {\n    'Content-Type': 'application/json'\n  },\n  body: JSON.stringify({\n    nombre: 'Universal Pictures Inc.',\n    slogan: 'Bringing the Magic Home',\n    descripcion: 'Empresa productora y distribuidora de películas de Hollywood',\n    estado: 'Inactivo'\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error('Error:', error));"
+    },
+    "delete_productora": {
+      "codigo": "fetch('http://localhost:4000/api/productora/507f1f77bcf86cd799439016', {\n  method: 'DELETE',\n  headers: {\n    'Content-Type': 'application/json'\n  }\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error('Error:', error));"
+    }
+  }
+}

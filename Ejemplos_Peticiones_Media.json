@@ -1,0 +1,441 @@
+{
+  "info": {
+    "titulo": "API REST - Media (Películas y Series)",
+    "descripcion": "Ejemplos de peticiones GET, POST, PUT y DELETE para la API de Media",
+    "baseURL": "http://localhost:4000/api"
+  },
+  "peticiones": {
+    "get_todas_medias": {
+      "metodo": "GET",
+      "url": "http://localhost:4000/api/media",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "descripcion": "Obtiene la lista de todas las películas y series",
+      "respuesta_esperada": {
+        "status": 200,
+        "body": [
+          {
+            "_id": "507f1f77bcf86cd799439019",
+            "serial": "UNIVERS-001",
+            "titulo": "Jaws",
+            "sinopsis": "Un tiburón depredador ataca a una popular playa",
+            "urlPelicula": "https://www.peliculas.com/jaws",
+            "imagen": "https://www.imagenes.com/jaws.jpg",
+            "anioEstreno": 1975,
+            "genero": {
+              "_id": "507f1f77bcf86cd799439011",
+              "nombre": "Acción"
+            },
+            "director": {
+              "_id": "507f1f77bcf86cd799439015",
+              "nombre": "Steven Spielberg"
+            },
+            "productora": {
+              "_id": "507f1f77bcf86cd799439016",
+              "nombre": "Universal Pictures"
+            },
+            "tipo": {
+              "_id": "507f1f77bcf86cd799439017",
+              "nombre": "Película"
+            },
+            "fechaCreacion": "2024-01-15T10:30:00.000Z",
+            "fechaActualizacion": "2024-01-15T10:30:00.000Z"
+          }
+        ]
+      }
+    },
+    "post_crear_media": {
+      "metodo": "POST",
+      "url": "http://localhost:4000/api/media",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "descripcion": "Crea una nueva película o serie en la base de datos",
+      "body": {
+        "serial": "UNIVERS-002",
+        "titulo": "E.T. the Extra-Terrestrial",
+        "sinopsis": "Un niño se hace amigo de un extraterrestre abandonado",
+        "urlPelicula": "https://www.peliculas.com/et",
+        "imagen": "https://www.imagenes.com/et.jpg",
+        "anioEstreno": 1982,
+        "genero": "507f1f77bcf86cd799439011",
+        "director": "507f1f77bcf86cd799439015",
+        "productora": "507f1f77bcf86cd799439016",
+        "tipo": "507f1f77bcf86cd799439017"
+      },
+      "campos_requeridos": [
+        {
+          "campo": "serial",
+          "tipo": "string",
+          "descripcion": "Serial único de la media",
+          "validaciones": [
+            "Requerido",
+            "Único en la base de datos",
+            "Se elimina espacios en blanco al inicio y final"
+          ]
+        },
+        {
+          "campo": "titulo",
+          "tipo": "string",
+          "descripcion": "Título de la película o serie",
+          "validaciones": [
+            "Requerido",
+            "Se elimina espacios en blanco al inicio y final"
+          ]
+        },
+        {
+          "campo": "urlPelicula",
+          "tipo": "string",
+          "descripcion": "URL única de la película o serie",
+          "validaciones": [
+            "Requerido",
+            "Único en la base de datos",
+            "URL debe ser válida"
+          ]
+        },
+        {
+          "campo": "anioEstreno",
+          "tipo": "number",
+          "descripcion": "Año de estreno",
+          "validaciones": ["Requerido"]
+        },
+        {
+          "campo": "genero",
+          "tipo": "ObjectId",
+          "descripcion": "ID del género (debe estar activo)",
+          "validaciones": [
+            "Requerido",
+            "Debe referenciarse a un género activo"
+          ]
+        },
+        {
+          "campo": "director",
+          "tipo": "ObjectId",
+          "descripcion": "ID del director (debe estar activo)",
+          "validaciones": [
+            "Requerido",
+            "Debe referenciarse a un director activo"
+          ]
+        },
+        {
+          "campo": "productora",
+          "tipo": "ObjectId",
+          "descripcion": "ID de la productora (debe estar activa)",
+          "validaciones": [
+            "Requerido",
+            "Debe referenciarse a una productora activa"
+          ]
+        },
+        {
+          "campo": "tipo",
+          "tipo": "ObjectId",
+          "descripcion": "ID del tipo (película, serie, documental, etc.)",
+          "validaciones": ["Requerido"]
+        }
+      ],
+      "campos_opcionales": [
+        {
+          "campo": "sinopsis",
+          "tipo": "string",
+          "descripcion": "Sinopsis o descripción de la película o serie"
+        },
+        {
+          "campo": "imagen",
+          "tipo": "string",
+          "descripcion": "URL de la imagen o foto de portada"
+        }
+      ],
+      "respuesta_esperada": {
+        "status": 201,
+        "body": {
+          "_id": "507f1f77bcf86cd799439025",
+          "serial": "UNIVERS-002",
+          "titulo": "E.T. the Extra-Terrestrial",
+          "sinopsis": "Un niño se hace amigo de un extraterrestre abandonado",
+          "urlPelicula": "https://www.peliculas.com/et",
+          "imagen": "https://www.imagenes.com/et.jpg",
+          "anioEstreno": 1982,
+          "genero": {
+            "_id": "507f1f77bcf86cd799439011",
+            "nombre": "Acción"
+          },
+          "director": {
+            "_id": "507f1f77bcf86cd799439015",
+            "nombre": "Steven Spielberg"
+          },
+          "productora": {
+            "_id": "507f1f77bcf86cd799439016",
+            "nombre": "Universal Pictures"
+          },
+          "tipo": {
+            "_id": "507f1f77bcf86cd799439017",
+            "nombre": "Película"
+          },
+          "fechaCreacion": "2024-01-15T16:45:00.000Z",
+          "fechaActualizacion": "2024-01-15T16:45:00.000Z"
+        }
+      },
+      "errores_posibles": [
+        {
+          "status": 400,
+          "mensaje": "El serial [serial] ya existe",
+          "causa": "Se intenta crear una media con un serial que ya existe en la BD"
+        },
+        {
+          "status": 400,
+          "mensaje": "La URL [urlPelicula] ya existe",
+          "causa": "Se intenta crear una media con una URL que ya existe en la BD"
+        },
+        {
+          "status": 400,
+          "mensaje": "Los campos requeridos son obligatorios",
+          "causa": "No se enviaron todos los campos requeridos"
+        },
+        {
+          "status": 500,
+          "mensaje": "Ocurrió un error al crear la media",
+          "causa": "Error del servidor al procesar la solicitud"
+        }
+      ]
+    },
+    "get_media_por_id": {
+      "metodo": "GET",
+      "url": "http://localhost:4000/api/media/507f1f77bcf86cd799439019",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "descripcion": "Obtiene una película o serie específica por su ID",
+      "respuesta_esperada": {
+        "status": 200,
+        "body": {
+          "_id": "507f1f77bcf86cd799439019",
+          "serial": "UNIVERS-001",
+          "titulo": "Jaws",
+          "sinopsis": "Un tiburón depredador ataca a una popular playa",
+          "urlPelicula": "https://www.peliculas.com/jaws",
+          "imagen": "https://www.imagenes.com/jaws.jpg",
+          "anioEstreno": 1975,
+          "genero": {
+            "_id": "507f1f77bcf86cd799439011",
+            "nombre": "Acción"
+          },
+          "director": {
+            "_id": "507f1f77bcf86cd799439015",
+            "nombre": "Steven Spielberg"
+          },
+          "productora": {
+            "_id": "507f1f77bcf86cd799439016",
+            "nombre": "Universal Pictures"
+          },
+          "tipo": {
+            "_id": "507f1f77bcf86cd799439017",
+            "nombre": "Película"
+          },
+          "fechaCreacion": "2024-01-15T10:30:00.000Z",
+          "fechaActualizacion": "2024-01-15T10:30:00.000Z"
+        }
+      },
+      "errores_posibles": [
+        {
+          "status": 404,
+          "mensaje": "Media no encontrada",
+          "causa": "El ID proporcionado no corresponde a ninguna media en la BD"
+        }
+      ]
+    },
+    "put_actualizar_media": {
+      "metodo": "PUT",
+      "url": "http://localhost:4000/api/media/507f1f77bcf86cd799439019",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "descripcion": "Actualiza una película o serie existente",
+      "body": {
+        "titulo": "Jaws: The Revenge",
+        "sinopsis": "Los secretos de una playa de verano son revelados",
+        "anioEstreno": 1987
+      },
+      "campos_actualizables": [
+        {
+          "campo": "serial",
+          "tipo": "string",
+          "descripcion": "Serial de la media",
+          "validaciones": [
+            "Opcional",
+            "Único en la base de datos"
+          ]
+        },
+        {
+          "campo": "titulo",
+          "tipo": "string",
+          "descripcion": "Título de la película o serie",
+          "validaciones": ["Opcional"]
+        },
+        {
+          "campo": "sinopsis",
+          "tipo": "string",
+          "descripcion": "Sinopsis de la película o serie",
+          "validaciones": ["Opcional"]
+        },
+        {
+          "campo": "urlPelicula",
+          "tipo": "string",
+          "descripcion": "URL de la película o serie",
+          "validaciones": [
+            "Opcional",
+            "Único en la base de datos"
+          ]
+        },
+        {
+          "campo": "imagen",
+          "tipo": "string",
+          "descripcion": "URL de la imagen o foto de portada",
+          "validaciones": ["Opcional"]
+        },
+        {
+          "campo": "anioEstreno",
+          "tipo": "number",
+          "descripcion": "Año de estreno",
+          "validaciones": ["Opcional"]
+        },
+        {
+          "campo": "genero",
+          "tipo": "ObjectId",
+          "descripcion": "ID del género",
+          "validaciones": ["Opcional"]
+        },
+        {
+          "campo": "director",
+          "tipo": "ObjectId",
+          "descripcion": "ID del director",
+          "validaciones": ["Opcional"]
+        },
+        {
+          "campo": "productora",
+          "tipo": "ObjectId",
+          "descripcion": "ID de la productora",
+          "validaciones": ["Opcional"]
+        },
+        {
+          "campo": "tipo",
+          "tipo": "ObjectId",
+          "descripcion": "ID del tipo",
+          "validaciones": ["Opcional"]
+        }
+      ],
+      "respuesta_esperada": {
+        "status": 200,
+        "body": {
+          "_id": "507f1f77bcf86cd799439019",
+          "serial": "UNIVERS-001",
+          "titulo": "Jaws: The Revenge",
+          "sinopsis": "Los secretos de una playa de verano son revelados",
+          "urlPelicula": "https://www.peliculas.com/jaws",
+          "imagen": "https://www.imagenes.com/jaws.jpg",
+          "anioEstreno": 1987,
+          "genero": {
+            "_id": "507f1f77bcf86cd799439011",
+            "nombre": "Acción"
+          },
+          "director": {
+            "_id": "507f1f77bcf86cd799439015",
+            "nombre": "Steven Spielberg"
+          },
+          "productora": {
+            "_id": "507f1f77bcf86cd799439016",
+            "nombre": "Universal Pictures"
+          },
+          "tipo": {
+            "_id": "507f1f77bcf86cd799439017",
+            "nombre": "Película"
+          },
+          "fechaCreacion": "2024-01-15T10:30:00.000Z",
+          "fechaActualizacion": "2024-01-15T17:30:00.000Z"
+        }
+      },
+      "errores_posibles": [
+        {
+          "status": 400,
+          "mensaje": "El serial [serial] ya existe",
+          "causa": "Se intenta actualizar con un serial que ya existe en otro registro"
+        },
+        {
+          "status": 400,
+          "mensaje": "La URL [urlPelicula] ya existe",
+          "causa": "Se intenta actualizar con una URL que ya existe en otro registro"
+        },
+        {
+          "status": 404,
+          "mensaje": "Media no encontrada",
+          "causa": "El ID proporcionado no corresponde a ninguna media en la BD"
+        }
+      ]
+    },
+    "delete_media": {
+      "metodo": "DELETE",
+      "url": "http://localhost:4000/api/media/507f1f77bcf86cd799439019",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "descripcion": "Elimina una película o serie de la base de datos",
+      "respuesta_esperada": {
+        "status": 200,
+        "body": {
+          "message": "Media eliminada correctamente",
+          "media": {
+            "_id": "507f1f77bcf86cd799439019",
+            "serial": "UNIVERS-001",
+            "titulo": "Jaws",
+            "sinopsis": "Un tiburón depredador ataca a una popular playa",
+            "urlPelicula": "https://www.peliculas.com/jaws",
+            "imagen": "https://www.imagenes.com/jaws.jpg",
+            "anioEstreno": 1975,
+            "genero": "507f1f77bcf86cd799439011",
+            "director": "507f1f77bcf86cd799439015",
+            "productora": "507f1f77bcf86cd799439016",
+            "tipo": "507f1f77bcf86cd799439017",
+            "fechaCreacion": "2024-01-15T10:30:00.000Z",
+            "fechaActualizacion": "2024-01-15T10:30:00.000Z"
+          }
+        }
+      },
+      "errores_posibles": [
+        {
+          "status": 404,
+          "mensaje": "Media no encontrada",
+          "causa": "El ID proporcionado no corresponde a ninguna media en la BD"
+        },
+        {
+          "status": 500,
+          "mensaje": "Ocurrió un error al eliminar la media",
+          "causa": "Error del servidor al procesar la solicitud"
+        }
+      ]
+    }
+  },
+  "ejemplos_curl": {
+    "get_todas_medias": "curl -X GET http://localhost:4000/api/media -H \"Content-Type: application/json\"",
+    "post_crear_media": "curl -X POST http://localhost:4000/api/media -H \"Content-Type: application/json\" -d '{\"serial\": \"UNIVERS-002\", \"titulo\": \"E.T.\", \"urlPelicula\": \"https://www.peliculas.com/et\", \"anioEstreno\": 1982, \"genero\": \"GENERO_ID\", \"director\": \"DIRECTOR_ID\", \"productora\": \"PRODUCTORA_ID\", \"tipo\": \"TIPO_ID\"}'",
+    "get_media_por_id": "curl -X GET http://localhost:4000/api/media/507f1f77bcf86cd799439019 -H \"Content-Type: application/json\"",
+    "put_actualizar_media": "curl -X PUT http://localhost:4000/api/media/507f1f77bcf86cd799439019 -H \"Content-Type: application/json\" -d '{\"titulo\": \"Jaws: The Revenge\", \"anioEstreno\": 1987}'",
+    "delete_media": "curl -X DELETE http://localhost:4000/api/media/507f1f77bcf86cd799439019 -H \"Content-Type: application/json\""
+  },
+  "ejemplos_javascript": {
+    "get_todas_medias": {
+      "codigo": "fetch('http://localhost:4000/api/media')\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error('Error:', error));"
+    },
+    "post_crear_media": {
+      "codigo": "fetch('http://localhost:4000/api/media', {\n  method: 'POST',\n  headers: {\n    'Content-Type': 'application/json'\n  },\n  body: JSON.stringify({\n    serial: 'UNIVERS-002',\n    titulo: 'E.T. the Extra-Terrestrial',\n    sinopsis: 'Un niño se hace amigo de un extraterrestre abandonado',\n    urlPelicula: 'https://www.peliculas.com/et',\n    imagen: 'https://www.imagenes.com/et.jpg',\n    anioEstreno: 1982,\n    genero: 'GENERO_ID',\n    director: 'DIRECTOR_ID',\n    productora: 'PRODUCTORA_ID',\n    tipo: 'TIPO_ID'\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error('Error:', error));"
+    },
+    "get_media_por_id": {
+      "codigo": "fetch('http://localhost:4000/api/media/507f1f77bcf86cd799439019')\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error('Error:', error));"
+    },
+    "put_actualizar_media": {
+      "codigo": "fetch('http://localhost:4000/api/media/507f1f77bcf86cd799439019', {\n  method: 'PUT',\n  headers: {\n    'Content-Type': 'application/json'\n  },\n  body: JSON.stringify({\n    titulo: 'Jaws: The Revenge',\n    sinopsis: 'Los secretos de una playa de verano son revelados',\n    anioEstreno: 1987\n  })\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error('Error:', error));"
+    },
+    "delete_media": {
+      "codigo": "fetch('http://localhost:4000/api/media/507f1f77bcf86cd799439019', {\n  method: 'DELETE',\n  headers: {\n    'Content-Type': 'application/json'\n  }\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error('Error:', error));"
+    }
+  }
+}
