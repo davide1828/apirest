@@ -1,0 +1,456 @@
+{
+  "info": {
+    "titulo": "API REST - Módulos adicionales: Director, Productora, Tipo y Media",
+    "descripcion": "Ejemplos de peticiones para los módulos de Director, Productora, Tipo y Media",
+    "baseURL": "http://localhost:4000/api"
+  },
+  "modulo_director": {
+    "get_todos_directores": {
+      "metodo": "GET",
+      "url": "http://localhost:4000/api/director",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "descripcion": "Obtiene la lista de todos los directores",
+      "respuesta_esperada": {
+        "status": 200,
+        "body": [
+          {
+            "_id": "507f1f77bcf86cd799439015",
+            "nombre": "Steven Spielberg",
+            "estado": "Activo",
+            "fechaCreacion": "2024-01-15T10:30:00.000Z",
+            "fechaActualizacion": "2024-01-15T10:30:00.000Z"
+          }
+        ]
+      }
+    },
+    "post_crear_director": {
+      "metodo": "POST",
+      "url": "http://localhost:4000/api/director",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "descripcion": "Crea un nuevo director",
+      "body": {
+        "nombre": "Steven Spielberg"
+      },
+      "campos_requeridos": [
+        {
+          "campo": "nombre",
+          "tipo": "string",
+          "descripcion": "Nombre del director",
+          "validaciones": [
+            "Requerido",
+            "Único en la base de datos",
+            "Se elimina espacios en blanco al inicio y final"
+          ]
+        }
+      ],
+      "respuesta_esperada": {
+        "status": 201,
+        "body": {
+          "_id": "507f1f77bcf86cd799439015",
+          "nombre": "Steven Spielberg",
+          "estado": "Activo",
+          "fechaCreacion": "2024-01-15T10:30:00.000Z",
+          "fechaActualizacion": "2024-01-15T10:30:00.000Z"
+        }
+      }
+    },
+    "get_director_por_id": {
+      "metodo": "GET",
+      "url": "http://localhost:4000/api/director/507f1f77bcf86cd799439015",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "descripcion": "Obtiene un director por su ID"
+    },
+    "put_actualizar_director": {
+      "metodo": "PUT",
+      "url": "http://localhost:4000/api/director/507f1f77bcf86cd799439015",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "descripcion": "Actualiza un director",
+      "body": {
+        "nombre": "Steven Spielberg",
+        "estado": "Inactivo"
+      }
+    },
+    "delete_director": {
+      "metodo": "DELETE",
+      "url": "http://localhost:4000/api/director/507f1f77bcf86cd799439015",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "descripcion": "Elimina un director"
+    }
+  },
+  "modulo_productora": {
+    "get_todas_productoras": {
+      "metodo": "GET",
+      "url": "http://localhost:4000/api/productora",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "descripcion": "Obtiene la lista de todas las productoras",
+      "respuesta_esperada": {
+        "status": 200,
+        "body": [
+          {
+            "_id": "507f1f77bcf86cd799439016",
+            "nombre": "Universal Pictures",
+            "estado": "Activo",
+            "slogan": "Creating Magic",
+            "descripcion": "Empresa productora de películas de Hollywood",
+            "fechaCreacion": "2024-01-15T10:30:00.000Z",
+            "fechaActualizacion": "2024-01-15T10:30:00.000Z"
+          }
+        ]
+      }
+    },
+    "post_crear_productora": {
+      "metodo": "POST",
+      "url": "http://localhost:4000/api/productora",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "descripcion": "Crea una nueva productora",
+      "body": {
+        "nombre": "Universal Pictures",
+        "slogan": "Creating Magic",
+        "descripcion": "Empresa productora de películas de Hollywood"
+      },
+      "campos_requeridos": [
+        {
+          "campo": "nombre",
+          "tipo": "string",
+          "descripcion": "Nombre de la productora",
+          "validaciones": [
+            "Requerido",
+            "Único en la base de datos",
+            "Se elimina espacios en blanco al inicio y final"
+          ]
+        }
+      ],
+      "campos_opcionales": [
+        {
+          "campo": "slogan",
+          "tipo": "string",
+          "descripcion": "Slogan de la productora"
+        },
+        {
+          "campo": "descripcion",
+          "tipo": "string",
+          "descripcion": "Descripción de la productora"
+        }
+      ]
+    },
+    "get_productora_por_id": {
+      "metodo": "GET",
+      "url": "http://localhost:4000/api/productora/507f1f77bcf86cd799439016",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "descripcion": "Obtiene una productora por su ID"
+    },
+    "put_actualizar_productora": {
+      "metodo": "PUT",
+      "url": "http://localhost:4000/api/productora/507f1f77bcf86cd799439016",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "descripcion": "Actualiza una productora",
+      "body": {
+        "nombre": "Universal Pictures",
+        "slogan": "Creating Magic",
+        "descripcion": "Empresa productora de películas de Hollywood",
+        "estado": "Inactivo"
+      }
+    },
+    "delete_productora": {
+      "metodo": "DELETE",
+      "url": "http://localhost:4000/api/productora/507f1f77bcf86cd799439016",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "descripcion": "Elimina una productora"
+    }
+  },
+  "modulo_tipo": {
+    "get_todos_tipos": {
+      "metodo": "GET",
+      "url": "http://localhost:4000/api/tipo",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "descripcion": "Obtiene la lista de todos los tipos de multimedia",
+      "respuesta_esperada": {
+        "status": 200,
+        "body": [
+          {
+            "_id": "507f1f77bcf86cd799439017",
+            "nombre": "Película",
+            "descripcion": "Contenido multimedia de formato película",
+            "fechaCreacion": "2024-01-15T10:30:00.000Z",
+            "fechaActualizacion": "2024-01-15T10:30:00.000Z"
+          },
+          {
+            "_id": "507f1f77bcf86cd799439018",
+            "nombre": "Serie",
+            "descripcion": "Contenido multimedia de formato serie",
+            "fechaCreacion": "2024-01-15T10:30:00.000Z",
+            "fechaActualizacion": "2024-01-15T10:30:00.000Z"
+          }
+        ]
+      }
+    },
+    "post_crear_tipo": {
+      "metodo": "POST",
+      "url": "http://localhost:4000/api/tipo",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "descripcion": "Crea un nuevo tipo de multimedia",
+      "body": {
+        "nombre": "Película",
+        "descripcion": "Contenido multimedia de formato película"
+      },
+      "campos_requeridos": [
+        {
+          "campo": "nombre",
+          "tipo": "string",
+          "descripcion": "Nombre del tipo",
+          "validaciones": [
+            "Requerido",
+            "Único en la base de datos",
+            "Se elimina espacios en blanco al inicio y final"
+          ]
+        }
+      ],
+      "campos_opcionales": [
+        {
+          "campo": "descripcion",
+          "tipo": "string",
+          "descripcion": "Descripción del tipo"
+        }
+      ]
+    },
+    "get_tipo_por_id": {
+      "metodo": "GET",
+      "url": "http://localhost:4000/api/tipo/507f1f77bcf86cd799439017",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "descripcion": "Obtiene un tipo por su ID"
+    },
+    "put_actualizar_tipo": {
+      "metodo": "PUT",
+      "url": "http://localhost:4000/api/tipo/507f1f77bcf86cd799439017",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "descripcion": "Actualiza un tipo",
+      "body": {
+        "nombre": "Película",
+        "descripcion": "Contenido multimedia de formato película"
+      }
+    },
+    "delete_tipo": {
+      "metodo": "DELETE",
+      "url": "http://localhost:4000/api/tipo/507f1f77bcf86cd799439017",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "descripcion": "Elimina un tipo"
+    }
+  },
+  "modulo_media": {
+    "get_todos_medias": {
+      "metodo": "GET",
+      "url": "http://localhost:4000/api/media",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "descripcion": "Obtiene la lista de todas las películas y series",
+      "respuesta_esperada": {
+        "status": 200,
+        "body": [
+          {
+            "_id": "507f1f77bcf86cd799439019",
+            "serial": "UNIVERS-001",
+            "titulo": "Jaws",
+            "sinopsis": "Un tiburón depredador ataca a una popular playa",
+            "urlPelicula": "https://www.peliculas.com/jaws",
+            "imagen": "https://www.imagenes.com/jaws.jpg",
+            "anioEstreno": 1975,
+            "genero": {
+              "_id": "507f1f77bcf86cd799439011",
+              "nombre": "Acción"
+            },
+            "director": {
+              "_id": "507f1f77bcf86cd799439015",
+              "nombre": "Steven Spielberg"
+            },
+            "productora": {
+              "_id": "507f1f77bcf86cd799439016",
+              "nombre": "Universal Pictures"
+            },
+            "tipo": {
+              "_id": "507f1f77bcf86cd799439017",
+              "nombre": "Película"
+            },
+            "fechaCreacion": "2024-01-15T10:30:00.000Z",
+            "fechaActualizacion": "2024-01-15T10:30:00.000Z"
+          }
+        ]
+      }
+    },
+    "post_crear_media": {
+      "metodo": "POST",
+      "url": "http://localhost:4000/api/media",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "descripcion": "Crea una nueva película o serie",
+      "body": {
+        "serial": "UNIVERS-001",
+        "titulo": "Jaws",
+        "sinopsis": "Un tiburón depredador ataca a una popular playa",
+        "urlPelicula": "https://www.peliculas.com/jaws",
+        "imagen": "https://www.imagenes.com/jaws.jpg",
+        "anioEstreno": 1975,
+        "genero": "507f1f77bcf86cd799439011",
+        "director": "507f1f77bcf86cd799439015",
+        "productora": "507f1f77bcf86cd799439016",
+        "tipo": "507f1f77bcf86cd799439017"
+      },
+      "campos_requeridos": [
+        {
+          "campo": "serial",
+          "tipo": "string",
+          "descripcion": "Serial único de la media",
+          "validaciones": [
+            "Requerido",
+            "Único en la base de datos",
+            "Se elimina espacios en blanco al inicio y final"
+          ]
+        },
+        {
+          "campo": "titulo",
+          "tipo": "string",
+          "descripcion": "Título de la película o serie",
+          "validaciones": ["Requerido"]
+        },
+        {
+          "campo": "urlPelicula",
+          "tipo": "string",
+          "descripcion": "URL única de la película o serie",
+          "validaciones": [
+            "Requerido",
+            "Único en la base de datos",
+            "URL debe ser válida"
+          ]
+        },
+        {
+          "campo": "anioEstreno",
+          "tipo": "number",
+          "descripcion": "Año de estreno",
+          "validaciones": ["Requerido"]
+        },
+        {
+          "campo": "genero",
+          "tipo": "ObjectId",
+          "descripcion": "ID del género (debe estar activo)",
+          "validaciones": ["Requerido", "Debe referenciarse a un género activo"]
+        },
+        {
+          "campo": "director",
+          "tipo": "ObjectId",
+          "descripcion": "ID del director (debe estar activo)",
+          "validaciones": ["Requerido", "Debe referenciarse a un director activo"]
+        },
+        {
+          "campo": "productora",
+          "tipo": "ObjectId",
+          "descripcion": "ID de la productora (debe estar activa)",
+          "validaciones": ["Requerido", "Debe referenciarse a una productora activa"]
+        },
+        {
+          "campo": "tipo",
+          "tipo": "ObjectId",
+          "descripcion": "ID del tipo (película o serie)",
+          "validaciones": ["Requerido"]
+        }
+      ],
+      "campos_opcionales": [
+        {
+          "campo": "sinopsis",
+          "tipo": "string",
+          "descripcion": "Sinopsis o descripción de la película o serie"
+        },
+        {
+          "campo": "imagen",
+          "tipo": "string",
+          "descripcion": "URL de la imagen o foto de portada"
+        }
+      ]
+    },
+    "get_media_por_id": {
+      "metodo": "GET",
+      "url": "http://localhost:4000/api/media/507f1f77bcf86cd799439019",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "descripcion": "Obtiene una película o serie por su ID"
+    },
+    "put_actualizar_media": {
+      "metodo": "PUT",
+      "url": "http://localhost:4000/api/media/507f1f77bcf86cd799439019",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "descripcion": "Actualiza una película o serie",
+      "body": {
+        "titulo": "Jaws",
+        "sinopsis": "Un tiburón depredador ataca a una popular playa",
+        "anioEstreno": 1975
+      }
+    },
+    "delete_media": {
+      "metodo": "DELETE",
+      "url": "http://localhost:4000/api/media/507f1f77bcf86cd799439019",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "descripcion": "Elimina una película o serie"
+    }
+  },
+  "ejemplos_curl": {
+    "director": {
+      "crear": "curl -X POST http://localhost:4000/api/director -H \"Content-Type: application/json\" -d '{\"nombre\": \"Steven Spielberg\"}'",
+      "obtener_todos": "curl -X GET http://localhost:4000/api/director -H \"Content-Type: application/json\"",
+      "actualizar": "curl -X PUT http://localhost:4000/api/director/ID -H \"Content-Type: application/json\" -d '{\"nombre\": \"Steven Spielberg\", \"estado\": \"Inactivo\"}'",
+      "eliminar": "curl -X DELETE http://localhost:4000/api/director/ID -H \"Content-Type: application/json\""
+    },
+    "productora": {
+      "crear": "curl -X POST http://localhost:4000/api/productora -H \"Content-Type: application/json\" -d '{\"nombre\": \"Universal Pictures\", \"slogan\": \"Creating Magic\", \"descripcion\": \"Empresa productora\"}'",
+      "obtener_todos": "curl -X GET http://localhost:4000/api/productora -H \"Content-Type: application/json\"",
+      "actualizar": "curl -X PUT http://localhost:4000/api/productora/ID -H \"Content-Type: application/json\" -d '{\"nombre\": \"Universal Pictures\"}'",
+      "eliminar": "curl -X DELETE http://localhost:4000/api/productora/ID -H \"Content-Type: application/json\""
+    },
+    "tipo": {
+      "crear": "curl -X POST http://localhost:4000/api/tipo -H \"Content-Type: application/json\" -d '{\"nombre\": \"Película\", \"descripcion\": \"Contenido de formato película\"}'",
+      "obtener_todos": "curl -X GET http://localhost:4000/api/tipo -H \"Content-Type: application/json\"",
+      "actualizar": "curl -X PUT http://localhost:4000/api/tipo/ID -H \"Content-Type: application/json\" -d '{\"nombre\": \"Serie\"}'",
+      "eliminar": "curl -X DELETE http://localhost:4000/api/tipo/ID -H \"Content-Type: application/json\""
+    },
+    "media": {
+      "crear": "curl -X POST http://localhost:4000/api/media -H \"Content-Type: application/json\" -d '{\"serial\": \"UNIVERS-001\", \"titulo\": \"Jaws\", \"urlPelicula\": \"https://www.peliculas.com/jaws\", \"anioEstreno\": 1975, \"genero\": \"GENERO_ID\", \"director\": \"DIRECTOR_ID\", \"productora\": \"PRODUCTORA_ID\", \"tipo\": \"TIPO_ID\"}'",
+      "obtener_todos": "curl -X GET http://localhost:4000/api/media -H \"Content-Type: application/json\"",
+      "actualizar": "curl -X PUT http://localhost:4000/api/media/ID -H \"Content-Type: application/json\" -d '{\"titulo\": \"Jaws\", \"anioEstreno\": 1975}'",
+      "eliminar": "curl -X DELETE http://localhost:4000/api/media/ID -H \"Content-Type: application/json\""
+    }
+  }
+}
