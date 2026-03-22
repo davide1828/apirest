@@ -53,7 +53,7 @@ const getProductoraById = async (req = request, res = response) => {
 const updateProductora = async (req = request, res = response) => {
     try {
         const { id } = req.params;
-        const { nombre, estado, slogan, descripcion } = req.body;
+        const { nombre, isActive, slogan, descripcion } = req.body;
 
         const productora = await Productora.findById(id);
         if (!productora) {
@@ -68,7 +68,7 @@ const updateProductora = async (req = request, res = response) => {
             productora.nombre = nombre;
         }
 
-        if (estado) productora.estado = estado;
+        if (isActive !== undefined) productora.isActive = isActive;
         if (slogan) productora.slogan = slogan;
         if (descripcion) productora.descripcion = descripcion;
 

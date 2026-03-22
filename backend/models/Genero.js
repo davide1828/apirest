@@ -7,11 +7,10 @@ const GeneroSchema = new Schema({
         unique: true,
         trim: true
     },
-    estado: {
-        type: String,
+    isActive: {
+        type: Boolean,
         default: true,
-        enum: ['Activo', 'Inactivo'],
-        default: 'Activo'
+        required: [true, 'El estado activo del género es obligatorio']
     },
     descripcion: {
         type: String,
@@ -24,7 +23,7 @@ const GeneroSchema = new Schema({
     },
     fechaActualizacion: {
         type: Date,
-        reuired: true,
+        required: true,
         default: Date.now
     }
 

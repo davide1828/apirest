@@ -7,10 +7,10 @@ const DirectorSchema = new Schema({
         unique: true,
         trim: true
     },
-    estado: {
-        type: String,
-        enum: ['Activo', 'Inactivo'],
-        default: 'Activo'
+    isActive: {
+        type: Boolean,
+        default: true,
+        required: [true, 'El estado activo del director es obligatorio']
     },
     fechaCreacion: {
         type: Date,

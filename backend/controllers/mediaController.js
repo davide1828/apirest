@@ -1,4 +1,7 @@
 const Media = require('../models/Media');
+const Genero = require('../models/Genero');
+const Director = require('../models/Director');
+const Productora = require('../models/Productora');
 const { request, response } = require('express');
 
 const getMedias = async (req = request, res = response) => {
@@ -34,6 +37,21 @@ const createMedia = async (req = request, res = response) => {
         const mediaUrlDB = await Media.findOne({ urlPelicula });
         if (mediaUrlDB) {
             return res.status(400).json({ message: `La URL ${urlPelicula} ya existe` });
+        }
+
+        const activeGenero = await Genero.findById(genero);
+        if (!activeGenero || !activeGenero.isActive) {
+            return res.status(400).json({ message: 'El género seleccionado no existe o está inactivo' });
+        }
+
+        const activeDirector = await Director.findById(director);
+        if (!activeDirector || !activeDirector.isActive) {
+            return res.status(400).json({ message: 'El director seleccionado no existe o está inactivo' });
+        }
+
+        const activeProductora = await Productora.findById(productora);
+        if (!activeProductora || !activeProductora.isActive) {
+            return res.status(400).json({ message: 'La productora seleccionada no existe o está inactiva' });
         }
 
         const media = new Media({
@@ -114,10 +132,25 @@ const updateMedia = async (req = request, res = response) => {
         if (sinopsis) media.sinopsis = sinopsis;
         if (imagen) media.imagen = imagen;
         if (anioEstreno) media.anioEstreno = anioEstreno;
-        if (genero) media.genero = genero;
-        if (director) media.director = director;
-        if (productora) media.productora = productora;
         if (tipo) media.tipo = tipo;
+
+        if (genero) {
+            const activeGenero = await Genero.findById(genero);
+            if (!activeGenero || !activeGenero.isActive) return res.status(400).json({ message: 'El género seleccionado no existe o está inactivo' });
+            media.genero = genero;
+        }
+
+        if (director) {
+            const activeDirector = await Director.findById(director);
+            if (!activeDirector || !activeDirector.isActive) return res.status(400).json({ message: 'El director seleccionado no existe o está inactivo' });
+            media.director = director;
+        }
+
+        if (productora) {
+            const activeProductora = await Productora.findById(productora);
+            if (!activeProductora || !activeProductora.isActive) return res.status(400).json({ message: 'La productora seleccionada no existe o está inactiva' });
+            media.productora = productora;
+        }
 
         media.fechaActualizacion = Date.now();
         await media.save();

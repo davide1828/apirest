@@ -7,10 +7,10 @@ const ProductoraSchema = new Schema({
         unique: true,
         trim: true
     },
-    estado: {
-        type: String,
-        enum: ['Activo', 'Inactivo'],
-        default: 'Activo'
+    isActive: {
+        type: Boolean,
+        default: true,
+        required: [true, 'El estado activo de la productora es obligatorio']
     },
     slogan: {
         type: String,

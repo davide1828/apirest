@@ -53,7 +53,7 @@ const getDirectorById = async (req = request, res = response) => {
 const updateDirector = async (req = request, res = response) => {
     try {
         const { id } = req.params;
-        const { nombre, estado } = req.body;
+        const { nombre, isActive } = req.body;
 
         const director = await Director.findById(id);
         if (!director) {
@@ -68,8 +68,8 @@ const updateDirector = async (req = request, res = response) => {
             director.nombre = nombre;
         }
 
-        if (estado) {
-            director.estado = estado;
+        if (isActive !== undefined) {
+            director.isActive = isActive;
         }
 
         director.fechaActualizacion = Date.now();
