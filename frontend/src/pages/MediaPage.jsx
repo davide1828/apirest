@@ -86,7 +86,8 @@ function MediaPage() {
     setError('');
     setSuccess('');
 
-    if (!form.serial || !form.titulo || !form.urlPelicula || !form.anioEstreno || !form.genero || !form.director || !form.productora || !form.tipo) {
+    // En creación (editId es null), el serial es opcional; en edición es requerido
+    if (!form.titulo || !form.urlPelicula || !form.anioEstreno || !form.genero || !form.director || !form.productora || !form.tipo) {
       setError('Por favor completa todos los campos obligatorios');
       return;
     }
@@ -102,8 +103,10 @@ function MediaPage() {
         setSuccess('Media actualizada correctamente');
         setEditId(null);
       } else {
-        await api.post('/media', payload);
-        setSuccess('Media creada correctamente');
+        // En creación, no incluir serial (se genera automáticamente en el backend)
+        const { serial, ...createPayload } = payload;
+        const response = await api.post('/media', createPayload);
+        setSuccess(`Media creada correctamente. Serial: ${response.data.serial}`);
       }
 
       setForm({
@@ -332,8 +335,17 @@ function MediaPage() {
               {loading && <div className="text-muted small">Cargando datos...</div>}
               <form onSubmit={submitMedia}>
                 <div className="mb-2">
-                  <label className="form-label small">Serial *</label>
-                  <input className="form-control form-control-sm" name="serial" value={form.serial} onChange={handleChange} placeholder="Código único" required />
+                  <label className="form-label small">Serial {editId ? '*' : ''}</label>
+                  <input 
+                    className="form-control form-control-sm" 
+                    name="serial" 
+                    value={form.serial} 
+                    onChange={handleChange} 
+                    placeholder={editId ? "Código único" : "Se genera automáticamente"} 
+                    disabled={!editId}
+                    required={!!editId}
+                  />
+                  {!editId && <small className="text-muted d-block mt-1">El código se generará automáticamente al guardar</small>}
                 </div>
                 <div className="mb-2">
                   <label className="form-label small">Título *</label>

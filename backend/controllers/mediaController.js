@@ -4,6 +4,28 @@ const Director = require('../models/Director');
 const Productora = require('../models/Productora');
 const { request, response } = require('express');
 
+// Función para generar serial único
+const generateSerialNumber = async () => {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const timestamp = date.getTime().toString().slice(-5);
+    
+    let serial = `MEDIA-${year}${month}${day}-${timestamp}`;
+    
+    // Verificar si el serial ya existe (muy improbable pero por seguridad)
+    let exists = await Media.findOne({ serial });
+    let counter = 1;
+    while (exists && counter < 100) {
+        serial = `MEDIA-${year}${month}${day}-${timestamp}${counter}`;
+        exists = await Media.findOne({ serial });
+        counter++;
+    }
+    
+    return serial;
+};
+
 const getMedias = async (req = request, res = response) => {
     try {
         const medias = await Media.find()
@@ -20,17 +42,11 @@ const getMedias = async (req = request, res = response) => {
 
 const createMedia = async (req = request, res = response) => {
     try {
-        const { serial, titulo, sinopsis, urlPelicula, imagen, anioEstreno, genero, director, productora, tipo } = req.body;
+        const { titulo, sinopsis, urlPelicula, imagen, anioEstreno, genero, director, productora, tipo } = req.body;
 
-        // Validaciones
-        if (!serial || !titulo || !urlPelicula || !anioEstreno || !genero || !director || !productora || !tipo) {
+        // Validaciones - el serial ahora NO es requerido
+        if (!titulo || !urlPelicula || !anioEstreno || !genero || !director || !productora || !tipo) {
             return res.status(400).json({ message: 'Los campos requeridos son obligatorios' });
-        }
-
-        // Verificar que el serial no exista
-        const mediaSerialDB = await Media.findOne({ serial });
-        if (mediaSerialDB) {
-            return res.status(400).json({ message: `El serial ${serial} ya existe` });
         }
 
         // Verificar que la URL no exista
@@ -54,8 +70,11 @@ const createMedia = async (req = request, res = response) => {
             return res.status(400).json({ message: 'La productora seleccionada no existe o está inactiva' });
         }
 
+        // Generar serial automático
+        const generatedSerial = await generateSerialNumber();
+
         const media = new Media({
-            serial,
+            serial: generatedSerial,
             titulo,
             sinopsis,
             urlPelicula,
