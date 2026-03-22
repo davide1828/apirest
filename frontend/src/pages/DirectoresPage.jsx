@@ -111,41 +111,48 @@ function DirectoresPage() {
         </div>
 
         <div className="col-md-7">
-          {loading ? (
-            <div>Cargando...</div>
-          ) : directores.length ? (
-            <div className="table-responsive">
-              <table className="table table-striped table-hover">
-                <thead className="table-dark">
-                  <tr>
-                    <th>Nombre</th>
-                    <th>Activo</th>
-                    <th>Creación</th>
-                    <th>Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {directores.map((d) => (
-                    <tr key={d._id}>
-                      <td>{d.nombre}</td>
-                      <td>{d.isActive ? 'Sí' : 'No'}</td>
-                      <td>{new Date(d.fechaCreacion).toLocaleDateString()}</td>
-                      <td>
-                        <button className="btn btn-sm btn-info" onClick={() => handleEdit(d)}>
-                          Editar
-                        </button>
-                        <button className="btn btn-sm btn-danger ms-2" onClick={() => handleDelete(d._id)}>
-                          Eliminar
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+          <div className="card mb-4" style={{ background: 'linear-gradient(135deg, rgba(31, 47, 89, 0.7), rgba(19, 28, 54, 0.9))', borderColor: 'rgba(16, 185, 129, 0.2)' }}>
+            <div className="card-body">
+              <h5 className="card-title text-white mb-4">Lista de Directores</h5>
+              {loading ? (
+                <div>Cargando...</div>
+              ) : directores.length ? (
+                <div className="table-responsive">
+                  <table className="table text-light border-0" style={{ backgroundColor: 'transparent' }}>
+                    <thead style={{ background: 'rgba(31, 47, 89, 0.8)' }}>
+                      <tr>
+                        <th className="border-bottom-0" style={{ color: '#10b981' }}>Nombre</th>
+                        <th className="border-bottom-0" style={{ color: '#10b981' }}>Activo</th>
+                        <th className="border-bottom-0" style={{ color: '#10b981' }}>Creación</th>
+                        <th className="border-bottom-0" style={{ color: '#10b981' }}>Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {directores.map((d) => (
+                        <tr key={d._id} style={{ borderBottom: '1px solid rgba(16, 185, 129, 0.2)' }}>
+                          <td className="bg-transparent text-light border-0">{d.nombre}</td>
+                          <td className="bg-transparent text-light border-0">{d.isActive ? 'Sí' : 'No'}</td>
+                          <td className="bg-transparent text-light border-0">{new Date(d.fechaCreacion).toLocaleDateString()}</td>
+                          <td className="bg-transparent border-0">
+                            <div className="d-flex gap-2">
+                              <button className="btn btn-sm btn-info" style={{ background: 'rgba(147, 51, 234, 0.8)', borderColor: 'rgba(147, 51, 234, 1)', color: '#fff' }} onClick={() => handleEdit(d)}>
+                                Editar
+                              </button>
+                              <button className="btn btn-sm btn-danger" style={{ background: 'rgba(192, 57, 43, 0.8)', borderColor: 'rgba(149, 43, 33, 1)', color: '#fff' }} onClick={() => handleDelete(d._id)}>
+                                Eliminar
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div className="text-light">No hay directores cargados.</div>
+              )}
             </div>
-          ) : (
-            <div>No hay directores cargados.</div>
-          )}
+          </div>
         </div>
       </div>
     </div>

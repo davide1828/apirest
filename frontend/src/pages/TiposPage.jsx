@@ -115,41 +115,48 @@ function TiposPage() {
         </div>
 
         <div className="col-md-7">
-          {loading ? (
-            <div>Cargando...</div>
-          ) : tipos.length ? (
-            <div className="table-responsive">
-              <table className="table table-striped table-hover">
-                <thead className="table-dark">
-                  <tr>
-                    <th>Nombre</th>
-                    <th>Descripción</th>
-                    <th>Creación</th>
-                    <th>Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {tipos.map((t) => (
-                    <tr key={t._id}>
-                      <td>{t.nombre}</td>
-                      <td>{t.descripcion || '-'}</td>
-                      <td>{new Date(t.fechaCreacion).toLocaleDateString()}</td>
-                      <td>
-                        <button className="btn btn-sm btn-info" onClick={() => handleEdit(t)}>
-                          Editar
-                        </button>
-                        <button className="btn btn-sm btn-danger ms-2" onClick={() => handleDelete(t._id)}>
-                          Eliminar
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+          <div className="card mb-4" style={{ background: 'linear-gradient(135deg, rgba(31, 47, 89, 0.7), rgba(19, 28, 54, 0.9))', borderColor: 'rgba(16, 185, 129, 0.2)' }}>
+            <div className="card-body">
+              <h5 className="card-title text-white mb-4">Lista de Tipos</h5>
+              {loading ? (
+                <div>Cargando...</div>
+              ) : tipos.length ? (
+                <div className="table-responsive">
+                  <table className="table text-light border-0" style={{ backgroundColor: 'transparent' }}>
+                    <thead style={{ background: 'rgba(31, 47, 89, 0.8)' }}>
+                      <tr>
+                        <th className="border-bottom-0" style={{ color: '#10b981' }}>Nombre</th>
+                        <th className="border-bottom-0" style={{ color: '#10b981' }}>Descripción</th>
+                        <th className="border-bottom-0" style={{ color: '#10b981' }}>Creación</th>
+                        <th className="border-bottom-0" style={{ color: '#10b981' }}>Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {tipos.map((t) => (
+                        <tr key={t._id} style={{ borderBottom: '1px solid rgba(16, 185, 129, 0.2)' }}>
+                          <td className="bg-transparent text-light border-0">{t.nombre}</td>
+                          <td className="bg-transparent text-light border-0">{t.descripcion || '-'}</td>
+                          <td className="bg-transparent text-light border-0">{new Date(t.fechaCreacion).toLocaleDateString()}</td>
+                          <td className="bg-transparent border-0">
+                            <div className="d-flex gap-2">
+                              <button className="btn btn-sm btn-info" style={{ background: 'rgba(147, 51, 234, 0.8)', borderColor: 'rgba(147, 51, 234, 1)', color: '#fff' }} onClick={() => handleEdit(t)}>
+                                Editar
+                              </button>
+                              <button className="btn btn-sm btn-danger" style={{ background: 'rgba(192, 57, 43, 0.8)', borderColor: 'rgba(149, 43, 33, 1)', color: '#fff' }} onClick={() => handleDelete(t._id)}>
+                                Eliminar
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div className="text-light">No hay tipos cargados.</div>
+              )}
             </div>
-          ) : (
-            <div>No hay tipos cargados.</div>
-          )}
+          </div>
         </div>
       </div>
     </div>
