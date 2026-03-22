@@ -70,7 +70,12 @@ h1,
 h2 {
   font-family: var(--heading);
   font-weight: 500;
-  color: var(--text-h);
+  color: #000 !important;
+}
+
+/* For always black section headers */
+h1, h2, h3, h4, h5, h6, p, li, span {
+  color: #000 !important;
 }
 
 h1 {
@@ -95,6 +100,17 @@ p {
   margin: 0;
 }
 
+/* Texto seleccionado al resaltar (para mejor contraste) */
+::selection {
+  color: #000;
+  background: rgba(255, 235, 59, 0.8);
+}
+
+/* Opcional: nav activo en barra de menú */
+.navbar-dark .nav-link.active {
+  color: #000 !important;
+}
+
 code,
 .counter {
   font-family: var(--mono);
@@ -109,3 +125,149 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+/* Estilos modernos para MediaPage */
+.media-page {
+  padding-bottom: 20px;
+}
+
+.media-panel {
+  border-radius: 20px;
+  overflow: hidden;
+  background: linear-gradient(150deg, rgba(255, 255, 255, 0.95), rgba(245, 246, 251, 0.9));
+}
+
+.media-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 1rem;
+}
+
+.media-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(12, 11, 19, 0.7), rgba(20, 19, 29, 0.95));
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.media-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 52px rgba(0, 0, 0, 0.38);
+}
+
+.media-cover {
+  position: relative;
+  width: 100%;
+  min-height: 160px;
+  background-position: center;
+  background-size: cover;
+  filter: brightness(0.85);
+}
+
+.media-tag {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  color: #fff;
+  font-size: 0.7rem;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.media-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.9rem;
+  color: #f8f8ff;
+}
+
+.media-title {
+  font-size: 1.05rem;
+  margin: 0;
+  color: #f1f5f9;
+  font-weight: 700;
+}
+
+.media-meta {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #c7c5d1;
+}
+
+.media-sinopsis {
+  margin: 0;
+  font-size: 0.84rem;
+  line-height: 1.35;
+  color: #d5d4e0;
+  min-height: 3.3rem;
+}
+
+.media-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin-top: auto;
+}
+
+.media-footer a.btn {
+  font-size: 0.75rem;
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #fff;
+}
+
+.media-footer button.btn-danger {
+  font-size: 0.75rem;
+  padding: 0.35rem 0.7rem;
+}
+
+.btn-watchlist {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  border: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  color: #fff;
+  background: rgba(33, 37, 41, 0.72);
+  display: grid;
+  place-items: center;
+}
+
+.btn-watchlist:hover {
+  background: rgba(33, 37, 41, 0.92);
+}
+
+.btn-watchlist.active {
+  background: rgba(255, 216, 71, 0.95);
+  color: #1d1d1d;
+}
+
+.pagination {
+  margin-top: 1rem;
+}
+
+@media (max-width: 992px) {
+  .media-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .media-page h2 {
+    font-size: 1.5rem;
+  }
+
+  .media-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
