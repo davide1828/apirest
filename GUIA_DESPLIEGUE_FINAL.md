@@ -52,7 +52,7 @@ El despliegue en la nube es la fase final del ciclo de vida de desarrollo de sof
    - **Publish directory:** `frontend/dist` (Importante: Netlify a veces requiere el path relativo desde el root).
 3. **Variables de Entorno:**
    - Ve a "Site configuration" -> "Environment variables".
-   - Agrega `VITE_API_BASE_URL` apuntando a la URL que te entregó Render (ej. `https://api-peliculas.onrender.com/api`).
+   - Agrega `VITE_API_URL` apuntando a la URL que te entregó Render (ej. `https://api-peliculas.onrender.com/api`).
 4. **Manejo de Rutas (Redirects):**
    - Para que React Router funcione al recargar, crea un archivo llamado `_redirects` en la carpeta `public` del frontend con el contenido: `/* /index.html 200`.
 
