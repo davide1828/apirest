@@ -1,6 +1,13 @@
-const Tipo = require('../models/Tipo');
+const Tipo = require('../models/tipoModel');
 const { request, response } = require('express');
 
+/**
+ * Obtiene la lista descriptiva con todos los tipos de media (ej. Película, Serie, Corto).
+ * Función que permite nutrir selectores o menús del lado cliente.
+ * @param {Object} req - Objeto Express de petición.
+ * @param {Object} res - Objeto Express de respuesta.
+ * @returns {Promise<void>} Salida JSON con los diferentes tipos registrados (200) o error de base de datos (500).
+ */
 const getTipos = async (req = request, res = response) => {
     try {
         const tipos = await Tipo.find();
@@ -11,6 +18,13 @@ const getTipos = async (req = request, res = response) => {
     }
 };
 
+/**
+ * Crea la definición de un nuevo tipo de medio en la plataforma.
+ * Se asegura de que cada tipo reciba un nombre y evita los nombres repetidos en la plataforma.
+ * @param {Object} req - Petición con un body que incluye `nombre` y `descripcion` del tipo.
+ * @param {Object} res - Objeto Express de respuesta.
+ * @returns {Promise<void>} Salida 201 en caso de la creación exitosa; 400 si falta el nombre o ya existe; 500 por error interno.
+ */
 const createTipo = async (req = request, res = response) => {
     try {
         const { nombre, descripcion } = req.body;
@@ -34,6 +48,13 @@ const createTipo = async (req = request, res = response) => {
     }
 };
 
+/**
+ * Permite la búsqueda detallada y recuperación de un único tipo utilizando su ID respectivo.
+ * Útil para procesos de edición individualizada.
+ * @param {Object} req - Objeto de petición expresando el parámetro `id`.
+ * @param {Object} res - Objeto Express de respuesta.
+ * @returns {Promise<void>} JSON con el objeto solicitado (200), mensaje de no encontrado (404) o fallo interno (500).
+ */
 const getTipoById = async (req = request, res = response) => {
     try {
         const { id } = req.params;
@@ -50,6 +71,13 @@ const getTipoById = async (req = request, res = response) => {
     }
 };
 
+/**
+ * Gestiona el cambio en las propiedades de un tipo que ya figura en base de datos.
+ * Verifica si el nombre nuevo colisiona con el nombre de otro tipo diferente para garantizar unicidad.
+ * @param {Object} req - Petición que lleva en `params` el ID y en el `body` las propiedades (`nombre`, `descripcion`).
+ * @param {Object} res - Respuesta a proveer. 
+ * @returns {Promise<void>} Una respuesta al cliente reflejando un tipo funcionalmente actualizado (200) o avisando el error suscitado (404/400).
+ */
 const updateTipo = async (req = request, res = response) => {
     try {
         const { id } = req.params;
@@ -80,6 +108,13 @@ const updateTipo = async (req = request, res = response) => {
     }
 };
 
+/**
+ * Suprime de forma permanente un registro de tipo usando su ID numérico.
+ * Ejecuta validación sobre si el objeto realmente existía antes de confirmar su borrado.
+ * @param {Object} req - Objeto de petición especificando con `id`.
+ * @param {Object} res - Objeto de respuesta que alojará el OK textual.
+ * @returns {Promise<void>} El estado de éxito del servidor confirmando la destrucción física (200) o reporte de error (404/500).
+ */
 const deleteTipo = async (req = request, res = response) => {
     try {
         const { id } = req.params;

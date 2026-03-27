@@ -1,6 +1,12 @@
-const Genero = require('../models/Genero');
+const Genero = require('../models/generoModel');
 const { request, response } = require('express');
 
+/**
+ * Obtiene todos los géneros registrados en la base de datos.
+ * @param {Object} req - Objeto de petición de Express.
+ * @param {Object} res - Objeto de respuesta de Express.
+ * @returns {Promise<void>} - Retorna una lista JSON con los géneros o un mensaje de error 500 en caso de fallo.
+ */
 const getGeneros = async (req = request, res = response) => {
     try {
         const generos = await Genero.find();
@@ -11,6 +17,13 @@ const getGeneros = async (req = request, res = response) => {
     }
 
 }
+/**
+ * Crea un nuevo género en la base de datos.
+ * Valida de forma previa que el nombre del género no exista ya para evitar duplicados.
+ * @param {Object} req - Objeto de petición que contiene `nombre` y `descripcion` en el body.
+ * @param {Object} res - Objeto de respuesta de Express.
+ * @returns {Promise<void>} - Retorna el registro creado (201) o un error si ya existe (400) / fallo de servidor (500).
+ */
 const createGenero = async (req = request, res = response) => {
     try {
         const { nombre, descripcion } = req.body;
@@ -32,6 +45,13 @@ const createGenero = async (req = request, res = response) => {
     }
 }
 
+/**
+ * Actualiza la información de un género existente mediante su ID.
+ * Verifica previamente si el género existe y también asegura que no colisione con el nombre de otro género.
+ * @param {Object} req - Objeto de petición conteniendo el ID en parámetros y datos a cambiar en el body.
+ * @param {Object} res - Objeto de respuesta de Express.
+ * @returns {Promise<void>} - Retorna el género editado (200), no encontrado (404), error por duplicidad (400) o fallo (500).
+ */
 const updateGenero = async (req = request, res = response) => {
     try {
         const { id } = req.params;
@@ -64,6 +84,13 @@ const updateGenero = async (req = request, res = response) => {
     }
 }
 
+/**
+ * Elimina un género específico de la base de datos basándose en su ID.
+ * Verifica su existencia antes de intentar borrarlo.
+ * @param {Object} req - Objeto de petición conteniendo el ID en parámetros.
+ * @param {Object} res - Objeto de respuesta de Express.
+ * @returns {Promise<void>} - Mensaje de éxito (200), no encontrado (404) o error de servidor (500).
+ */
 const deleteGenero = async (req = request, res = response) => {
     try {
         const { id } = req.params;

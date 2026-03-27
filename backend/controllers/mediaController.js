@@ -1,31 +1,48 @@
-const Media = require('../models/Media');
-const Genero = require('../models/Genero');
-const Director = require('../models/Director');
-const Productora = require('../models/Productora');
+const Media = require('../models/mediaModel');
+const Genero = require('../models/generoModel');
+const Director = require('../models/directorModel');
+const Productora = require('../models/productoraModel');
 const { request, response } = require('express');
 
 // Función para generar serial único
+/**
+ * Helper interno: Genera un serial único progresivo para las películas (PEL-0001, PEL-0002).
+ * @returns {Promise<string>} String con el formato secuencial automático.
+ */
 const generateSerialNumber = async () => {
-    const date = new Date();
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    const timestamp = date.getTime().toString().slice(-5);
+    // Busca la película con el serial PEL-xxxx más alto
+    const lastMedia = await Media.findOne({ serial: /^PEL-\d+$/ })
+        .sort({ serial: -1 })
+        .collation({ locale: "en_US", numericOrdering: true });
+
+    let nextNumber = 1;
+    if (lastMedia && lastMedia.serial) {
+        const match = lastMedia.serial.match(/^PEL-(\d+)$/);
+        if (match && match[1]) {
+            nextNumber = parseInt(match[1], 10) + 1;
+        }
+    }
     
-    let serial = `MEDIA-${year}${month}${day}-${timestamp}`;
+    let serial = `PEL-${String(nextNumber).padStart(4, '0')}`;
     
-    // Verificar si el serial ya existe (muy improbable pero por seguridad)
+    // Verificación de seguridad por concurrencia
     let exists = await Media.findOne({ serial });
-    let counter = 1;
-    while (exists && counter < 100) {
-        serial = `MEDIA-${year}${month}${day}-${timestamp}${counter}`;
+    while (exists) {
+        nextNumber++;
+        serial = `PEL-${String(nextNumber).padStart(4, '0')}`;
         exists = await Media.findOne({ serial });
-        counter++;
     }
     
     return serial;
 };
 
+/**
+ * Trae una lista consolidada con la totalidad de los recursos multimedia disponibles.
+ * Emplea mongoose 'populate' sobre sus claves foráneas para obtener no solo los ObjectIDs, sino también variables informativas (ID -> nombre).
+ * @param {Object} req - Objeto solicitud.
+ * @param {Object} res - Objeto respuesta con el listado cargado.
+ * @returns {Promise<void>} Retorna un HTTP 200 con el array expandido.
+ */
 const getMedias = async (req = request, res = response) => {
     try {
         const medias = await Media.find()
@@ -40,6 +57,13 @@ const getMedias = async (req = request, res = response) => {
     }
 };
 
+/**
+ * Punto de entrada para subir una nueva película/serie (Media) a la plataforma.
+ * Lógica compleja: verifica que sus asociaciones sean válidas, que no estén repetidas mediante su URL, y autogenera un serial.
+ * @param {Object} req - Request contentivo del body con datos variados.
+ * @param {Object} res - Res contentivo del nuevo elemento validado y guardado.
+ * @returns {Promise<void>} La película creada de forma estructurada (201) o mensajes descriptivos de fallos estructurales (400) / servidor (500).
+ */
 const createMedia = async (req = request, res = response) => {
     try {
         const { titulo, sinopsis, urlPelicula, imagen, anioEstreno, genero, director, productora, tipo } = req.body;
@@ -99,6 +123,13 @@ const createMedia = async (req = request, res = response) => {
     }
 };
 
+/**
+ * Adquiere un único título consultándolo por su identificador base.
+ * Rellena de forma extensa mediante dependencias (populate) para conformar su vista detallada.
+ * @param {Object} req - Request conteniendo los \`params.id\` del recurso demandado.
+ * @param {Object} res - Objeto respuesta.
+ * @returns {Promise<void>} Vista con información expandida de la obra solicitada (200) o un 404 (ausente).
+ */
 const getMediaById = async (req = request, res = response) => {
     try {
         const { id } = req.params;
@@ -119,23 +150,22 @@ const getMediaById = async (req = request, res = response) => {
     }
 };
 
+/**
+ * Consolida un cambio masivo de estado o simple edición general para una obra audiovisual.
+ * Chequea exhaustivamente la disponibilidad de cada componente relacional atado (género, productora) antes de admitir cualquier update a su modelo padre para no dejarlo cojo.
+ * @param {Object} req - Request en la cual el body acarrea los repuestos y los params su ID global.
+ * @param {Object} res - La representación completa del medio ya transformado con exito.
+ * @returns {Promise<void>} Retorna la peli final exitosa (200) o fallos lógicos a nivel de relaciones (genero no existente, url copiada) u operacionales (500).
+ */
 const updateMedia = async (req = request, res = response) => {
     try {
         const { id } = req.params;
-        const { serial, titulo, sinopsis, urlPelicula, imagen, anioEstreno, genero, director, productora, tipo } = req.body;
+        // El serial NO se desestructura ni se actualiza para garantizar su inmutabilidad
+        const { titulo, sinopsis, urlPelicula, imagen, anioEstreno, genero, director, productora, tipo } = req.body;
 
         const media = await Media.findById(id);
         if (!media) {
             return res.status(404).json({ message: 'Media no encontrada' });
-        }
-
-        // Verificar serial único
-        if (serial && serial !== media.serial) {
-            const mediaSerialDB = await Media.findOne({ serial, _id: { $ne: id } });
-            if (mediaSerialDB) {
-                return res.status(400).json({ message: `El serial ${serial} ya existe` });
-            }
-            media.serial = serial;
         }
 
         // Verificar URL única
@@ -186,6 +216,12 @@ const updateMedia = async (req = request, res = response) => {
     }
 };
 
+/**
+ * Supresión definitiva de este objeto cinematográfico puntual en las tablas.
+ * @param {Object} req - Object conteniendo en ruta su llave maestra temporal `id`.
+ * @param {Object} res - JSON informativo de salida certificando la finalización exitosa.
+ * @returns {Promise<void>} Se remite (200) o bien rechazo absoluto con log en catch (500).
+ */
 const deleteMedia = async (req = request, res = response) => {
     try {
         const { id } = req.params;
