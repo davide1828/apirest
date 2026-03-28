@@ -32,7 +32,11 @@ El despliegue en la nube es la fase final del ciclo de vida de desarrollo de sof
 4. **Environment Variables (Crítico):**
    - Agrega `MONGO_URI` con el valor de tu `.env`.
    - Agrega `PORT` con el valor `10000`.
+   - Agrega `FRONTEND_URL` con la URL de Netlify.
    - Agrega `JWT_SECRET` con una clave segura.
+
+> [!TIP]
+> **Ruta Raíz**: Hemos configurado una ruta GET en `/` que devuelve "API corriendo correctamente" para facilitar la verificación del despliegue.
 
 > [!TIP]
 > **Captura Recomendada:** Toma un screenshot de la sección "Environment Variables" en Render una vez configuradas.
@@ -66,6 +70,9 @@ El despliegue exitoso garantiza que la separación de responsabilidades (Backend
 
 ---
 
-## 5. Glosario de URLs (Completar al terminar)
-- **Backend URL:** `https://apirest-67y5.onrender.com`
-- **Frontend URL:** `https://apiresspeliculas.netlify.app/`
+## 5. Glosario de URLs (Finalizadas)
+- **Backend URL:** [https://apirest-67y5.onrender.com](https://apirest-67y5.onrender.com)
+- **Frontend URL:** [https://apiresspeliculas.netlify.app/](https://apiresspeliculas.netlify.app/)
+
+---
+**Desarrollado con ❤️ para el curso de Ingeniería Web**

@@ -5,19 +5,32 @@ Este proyecto es una aplicación completa para la gestión de un catálogo de pe
 ## 📋 Tecnologías Utilizadas
 
 ### Backend
-- **Node.js** - Entorno de ejecución
-- **Express.js** - Framework web
-- **MongoDB Atlas** - Base de datos NoSQL en la nube
-- **Mongoose** - ODM para MongoDB
-- **CORS** - Para manejo de solicitudes cross-origin
-- **Dotenv** - Gestión de variables de entorno
+- **Node.js** - Entorno de ejecución profesional.
+- **Express.js** - Framework con arquitectura de middlewares.
+- **MongoDB Atlas** - Base de datos NoSQL escalable.
+- **Mongoose** - Modelado de datos rígido y validaciones.
+- **CORS** - Configuración dinámica para despliegue.
+- **Dotenv** - Seguridad en variables de entorno.
+- **Jest & Supertest** - Suite de pruebas automatizadas.
 
 ### Frontend
-- **React 19** - Biblioteca para interfaces de usuario
-- **Vite** - Herramienta de desarrollo rápida
-- **React Router DOM** - Enrutamiento
-- **Axios** - Cliente HTTP
-- **Bootstrap 5** - Framework CSS
+- **React 19** - UI moderna y ultra-responsiva.
+- **Vite** - Bundler de última generación.
+- **React Router DOM** - Navegación SPA fluida.
+- **Axios** - Comunicaciones asíncronas optimizadas.
+- **Bootstrap 5** - Estilizado consistente y profesional.
+
+## 🏗️ Arquitectura del Sistema
+
+```mermaid
+graph TD
+    A[Cliente: React SPA] -- Solicitudes HTTPS/JSON --> B(Backend: Express API)
+    B -- Mongoose ODM --> C[(Base de Datos: MongoDB Atlas)]
+    B -- Middleware --> D{Seguridad & Validación}
+    D -- Fallo --> E[Manejo Global de Errores]
+    D -- Éxito --> F[Controladores / Lógica de Negocio]
+    F -- Generador --> G[Seriales Automáticos PEL-XXXX]
+```
 
 ## 🔧 Requisitos Previos
 
@@ -90,15 +103,28 @@ Puedes crear scripts en el `package.json` raíz para ejecutar ambos simultáneam
 
 ## 📖 Uso
 
-Una vez que ambos servidores estén ejecutándose:
-
-1. Abre tu navegador en `http://localhost:5173`
+1. Abre tu navegador en la URL del Frontend.
 2. Navega por las diferentes secciones:
-   - **Géneros**: Gestiona los géneros de películas/series
-   - **Directores**: Administra los directores
-   - **Productoras**: Maneja las compañías productoras
-   - **Tipos**: Clasifica el tipo de contenido (Película, Serie, etc.)
-   - **Media**: Catálogo principal con todas las películas/series
+   - **Géneros**: Gestión de categorías (Acción, Comedia, etc.).
+   - **Directores**: Administración de cineastas con estado Activo/Inactivo.
+   - **Productoras**: Gestión de estudios con slogans y descripciones.
+   - **Tipos**: Clasificación de formato (Película, Serie).
+   - **Media**: **Módulo Core** con validaciones cruzadas y seriales automáticos.
+
+## 🧪 Pruebas Unitarias e Integración
+
+El proyecto cuenta con una robusta suite de pruebas para asegurar la estabilidad de la API:
+
+1. **Entrar a la carpeta backend:**
+   ```bash
+   cd backend
+   ```
+2. **Ejecutar pruebas:**
+   ```bash
+   npm test
+   ```
+> [!NOTE]
+> Las pruebas utilizan **Jest** y **Supertest** para simular peticiones reales a los endpoints y verificar respuestas consistentes (200 OK, 400 Bad Request, etc.).
 
 ## 🔗 Endpoints de la API
 

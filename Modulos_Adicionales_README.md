@@ -148,7 +148,7 @@ POST /api/tipo
 Gestiona películas y series. Permite agregar, editar, eliminar y consultar producciones multimedia. 
 
 ### Campos
-- **serial** (string, requerido, único): Serial único de la media
+- **serial** (string, autogenerado): Serial único automático con formato `PEL-XXXX`. No es necesario enviarlo en el POST.
 - **titulo** (string, requerido): Título de la película o serie
 - **sinopsis** (string, opcional): Sinopsis o descripción
 - **urlPelicula** (string, requerido, único): URL única de la película o serie
@@ -170,11 +170,10 @@ Gestiona películas y series. Permite agregar, editar, eliminar y consultar prod
 | PUT | `/api/media/:id` | Actualiza una película o serie |
 | DELETE | `/api/media/:id` | Elimina una película o serie |
 
-### Ejemplo de Creación
+### Ejemplo de Creación (Serial es Omitido)
 ```json
 POST /api/media
 {
-  "serial": "UNIVERS-001",
   "titulo": "Jaws",
   "sinopsis": "Un tiburón depredador ataca a una popular playa",
   "urlPelicula": "https://www.peliculas.com/jaws",
@@ -343,12 +342,11 @@ curl -X POST http://localhost:4000/api/tipo \
 ```
 **Guardar el `_id` del tipo en la respuesta**
 
-#### Paso 5: Crear Media
+#### Paso 5: Crear Media (El sistema genera el Serial automáticamente)
 ```bash
 curl -X POST http://localhost:4000/api/media \
   -H "Content-Type: application/json" \
   -d '{
-    "serial": "UNIVERS-001",
     "titulo": "Jaws",
     "sinopsis": "Un tiburón depredador ataca a una popular playa",
     "urlPelicula": "https://www.peliculas.com/jaws",
