@@ -328,7 +328,7 @@ function MediaPage() {
       </div>
 
       <div className="row g-4">
-        <div className="col-lg-4">
+        <div className="col-12 col-lg-4">
           <div className="card border-0 shadow-sm media-panel">
             <div className="card-body">
               <h5 className="card-title mb-3">Nueva Media</h5>
@@ -426,7 +426,7 @@ function MediaPage() {
           </div>
         </div>
 
-        <div className="col-lg-8">
+        <div className="col-12 col-lg-8">
           {loading ? (
             <div className="text-center py-4">Cargando catálogo...</div>
           ) : currentMedias.length ? (

@@ -88,29 +88,31 @@ function DirectoresPage() {
       {success && <div className="alert alert-success alert-dismissible fade show">{success}</div>}
 
       <div className="row">
-        <div className="col-md-5">
+        <div className="col-12 col-md-5">
           <div className="card mb-4">
             <div className="card-body">
               <h5 className="card-title">{editId ? 'Editar Director' : 'Nuevo Director'}</h5>
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit} className="p-3">
                 <div className="mb-3">
                   <label className="form-label">Nombre *</label>
-                  <input className="form-control" name="nombre" value={form.nombre} onChange={handleChange} placeholder="Ej: Steven Spielberg" required />
+                  <input className="form-control" name="nombre" value={form.nombre} onChange={handleChange} placeholder="Nombre del director" required />
                 </div>
-                <button type="submit" className="btn btn-primary">
-                  {editId ? 'Actualizar' : 'Crear'}
-                </button>
-                {editId && (
-                  <button type="button" className="btn btn-secondary ms-2" onClick={handleCancel}>
-                    Cancelar
+                <div className="d-grid gap-2 d-md-block">
+                  <button type="submit" className="btn btn-primary">
+                    {editId ? 'Actualizar' : 'Crear'}
                   </button>
-                )}
+                  {editId && (
+                    <button type="button" className="btn btn-secondary ms-md-2" onClick={handleCancel}>
+                      Cancelar
+                    </button>
+                  )}
+                </div>
               </form>
             </div>
           </div>
         </div>
 
-        <div className="col-md-7">
+        <div className="col-12 col-md-7">
           <div className="card mb-4" style={{ background: 'linear-gradient(135deg, rgba(31, 47, 89, 0.7), rgba(19, 28, 54, 0.9))', borderColor: 'rgba(16, 185, 129, 0.2)' }}>
             <div className="card-body">
               <h5 className="card-title text-white mb-4">Lista de Directores</h5>

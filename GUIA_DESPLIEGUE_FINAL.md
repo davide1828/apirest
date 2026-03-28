@@ -67,5 +67,5 @@ El despliegue exitoso garantiza que la separación de responsabilidades (Backend
 ---
 
 ## 5. Glosario de URLs (Completar al terminar)
-- **Backend URL:** `https://tu-api.onrender.com`
-- **Frontend URL:** `https://tu-sitio.netlify.app`
+- **Backend URL:** `https://apirest-67y5.onrender.com`
+- **Frontend URL:** `https://apiresspeliculas.netlify.app/`
