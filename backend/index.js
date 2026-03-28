@@ -16,6 +16,10 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
+// Ruta raíz personalizada
+app.get('/', (req, res) => {
+    res.status(200).send('<h1>API corriendo correctamente</h1>');
+});
 
 /** --- Rutas --- */
 app.use('/api/genero', require('./routes/generoRoutes'));
